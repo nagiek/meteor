@@ -23,8 +23,14 @@ exports.watch = function watch(absPath, callback) {
     callback.apply(this, arguments);
   }
 
-  var watcher = canUsePathwatcher &&
-    require("pathwatcher").watch(absPath, pathwatcherWrapper);
+  try {
+    var watcher = canUsePathwatcher &&
+          require("pathwatcher").watch(absPath, pathwatcherWrapper);
+  } catch (e) {
+    if (e.message !== 'Unable to watch path')
+      throw e;
+    throw Error("Unable to watch path, errno is " + e.code);
+  }
 
   function watchFileWrapper() {
     // If a pathwatcher event fired in the last polling interval, ignore
