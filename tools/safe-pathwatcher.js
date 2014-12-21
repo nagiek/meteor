@@ -25,7 +25,7 @@ exports.watch = function watch(absPath, callback) {
 
   try {
     var watcher = canUsePathwatcher &&
-          require("pathwatcher").watch(absPath, pathwatcherWrapper);
+        require("meteor-pathwatcher-tweaks").watch(absPath, pathwatcherWrapper);
   } catch (e) {
     if (e.message !== 'Unable to watch path')
       throw e;
